@@ -9,7 +9,7 @@
  */
 
 #include "precomp.h"
-#include "C:\dev\win32_2\reactos\reactos\base\shell\explorer\precomp.h"
+//#include "C:\dev\win32_2\reactos\reactos\base\shell\explorer\precomp.h"
 
 #include <devguid.h>
 #include <winioctl.h>
