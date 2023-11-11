@@ -273,35 +273,35 @@ HRESULT STDMETHODCALLTYPE Power_Message(_In_ CSysTray * pSysTray, UINT uMsg, WPA
             switch (lParam)
             {
                 case WM_LBUTTONDOWN:
-            		DPRINT1("WM_LBUTTONDOWN");
+            		DbgPrint("WM_LBUTTONDOWN");
                     SetTimer(pSysTray->GetHWnd(), POWER_TIMER_ID, GetDoubleClickTime(), NULL);
                     break;
 
                 case WM_LBUTTONUP:
-            		DPRINT1("WM_LBUTTONUP");
+            		DbgPrint("WM_LBUTTONUP");
                     break;
 
                 case WM_LBUTTONDBLCLK:
                     KillTimer(pSysTray->GetHWnd(), POWER_TIMER_ID);
                     _RunPower();
-            		DPRINT1("WM_LBUTTONDBLCLK");
+            		DbgPrint("WM_LBUTTONDBLCLK");
                     break;
 
                 case WM_RBUTTONDOWN:
-            		DPRINT1("WM_RBUTTONDOWN");
+            		DbgPrint("WM_RBUTTONDOWN");
                     break;
 
                 case WM_RBUTTONUP:
-            		DPRINT1("WM_RBUTTONUP");
+            		DbgPrint("WM_RBUTTONUP");
                     _ShowContextMenu(pSysTray);
                     break;
 
                 case WM_RBUTTONDBLCLK:
-            		DPRINT1("WM_RBUTTONDBLCLK");
+            		DbgPrint("WM_RBUTTONDBLCLK");
                     break;
 
                 case WM_MOUSEMOVE:
-            		DPRINT1("WM_MOUSEMOVE");
+            		DbgPrint("WM_MOUSEMOVE");
                     break;
             }
             return S_OK;
