@@ -10,7 +10,7 @@
 
 #include "precomp.h"
 //#include <debug.h>
-#include "C:\dev\win32_2\reactos\reactos\boot\freeldr\freeldr\include\debug.h"
+//#include "C:/dev/win32_2/reactos/reactos/boot/freeldr/freeldr/include/debug.h"
 
 
 #include <devguid.h>
@@ -276,35 +276,35 @@ HRESULT STDMETHODCALLTYPE Power_Message(_In_ CSysTray * pSysTray, UINT uMsg, WPA
             switch (lParam)
             {
                 case WM_LBUTTONDOWN:
-            		DPRINT1("WM_LBUTTONDOWN");
+            		ERR("WM_LBUTTONDOWN");
                     SetTimer(pSysTray->GetHWnd(), POWER_TIMER_ID, GetDoubleClickTime(), NULL);
                     break;
 
                 case WM_LBUTTONUP:
-            		DPRINT1("WM_LBUTTONUP");
+            		ERR("WM_LBUTTONUP");
                     break;
 
                 case WM_LBUTTONDBLCLK:
                     KillTimer(pSysTray->GetHWnd(), POWER_TIMER_ID);
                     _RunPower();
-            		DPRINT1("WM_LBUTTONDBLCLK");
+            		ERR("WM_LBUTTONDBLCLK");
                     break;
 
                 case WM_RBUTTONDOWN:
-            		DPRINT1("WM_RBUTTONDOWN");
+            		ERR("WM_RBUTTONDOWN");
                     break;
 
                 case WM_RBUTTONUP:
-            		DPRINT1("WM_RBUTTONUP");
+            		ERR("WM_RBUTTONUP");
                     _ShowContextMenu(pSysTray);
                     break;
 
                 case WM_RBUTTONDBLCLK:
-            		DPRINT1("WM_RBUTTONDBLCLK");
+            		ERR("WM_RBUTTONDBLCLK");
                     break;
 
                 case WM_MOUSEMOVE:
-            		DPRINT1("WM_MOUSEMOVE");
+            		ERR("WM_MOUSEMOVE");
                     break;
             }
             return S_OK;
