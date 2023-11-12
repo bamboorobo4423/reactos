@@ -9,7 +9,9 @@
  */
 
 #include "precomp.h"
-#include "boot/freeldr/freeldr/include/debug.h"
+//#include <debug.h>
+#include "C:\dev\win32_2\reactos\reactos\boot\freeldr\freeldr\include\debug.h"
+
 
 #include <devguid.h>
 #include <winioctl.h>
