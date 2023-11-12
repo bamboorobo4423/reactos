@@ -83,18 +83,24 @@ static HICON DynamicLoadIcon(HINSTANCE hinst)
     HICON hBatIcon;
     UINT index = -1;
 
+	
+	
     if (!GetSystemPowerStatus(&PowerStatus) ||
         PowerStatus.ACLineStatus == AC_LINE_UNKNOWN ||
         PowerStatus.BatteryFlag == BATTERY_FLAG_UNKNOWN)
     {
+    	//ERR("1\n");
         hBatIcon = LoadIcon(hinst, MAKEINTRESOURCE(IDI_BATTCAP_ERR));
         g_strTooltip.LoadStringW(IDS_PWR_UNKNOWN_REMAINING);
         return hBatIcon;
     }
 
+	
+	
     if (((PowerStatus.BatteryFlag & BATTERY_FLAG_NO_BATTERY) == 0) &&
         ((PowerStatus.BatteryFlag & BATTERY_FLAG_CHARGING) == BATTERY_FLAG_CHARGING))
     {
+    	//ERR("2\n");
         index = Quantize(PowerStatus.BatteryLifePercent);
         hBatIcon = LoadIcon(hinst, MAKEINTRESOURCE(bc_icons[index]));
         g_strTooltip.Format(IDS_PWR_CHARGING, PowerStatus.BatteryLifePercent);
@@ -102,12 +108,14 @@ static HICON DynamicLoadIcon(HINSTANCE hinst)
     else if (((PowerStatus.BatteryFlag & BATTERY_FLAG_NO_BATTERY) == 0) &&
              ((PowerStatus.BatteryFlag & BATTERY_FLAG_CHARGING) == 0))
     {
+    	//ERR("3\n");
         index = Quantize(PowerStatus.BatteryLifePercent);
         hBatIcon = LoadIcon(hinst, MAKEINTRESOURCE(br_icons[index]));
         g_strTooltip.Format(IDS_PWR_PERCENT_REMAINING, PowerStatus.BatteryLifePercent);
     }
     else
     {
+    	//ERR("4\n");
         hBatIcon = LoadIcon(hinst, MAKEINTRESOURCE(IDI_POWER_AC));
         g_strTooltip.LoadStringW(IDS_PWR_AC);
     }
@@ -118,6 +126,7 @@ static HICON DynamicLoadIcon(HINSTANCE hinst)
 HRESULT STDMETHODCALLTYPE Power_Init(_In_ CSysTray * pSysTray)
 {
     TRACE("Power_Init\n");
+	//ERR("Power_Init\n");
     g_hIconBattery = DynamicLoadIcon(g_hInstance);
 
     return pSysTray->NotifyIcon(NIM_ADD, ID_ICON_POWER, g_hIconBattery, g_strTooltip);
@@ -126,9 +135,10 @@ HRESULT STDMETHODCALLTYPE Power_Init(_In_ CSysTray * pSysTray)
 HRESULT STDMETHODCALLTYPE Power_Update(_In_ CSysTray * pSysTray)
 {
     TRACE("Power_Update\n");
+	ERR("Power_Update:\n");
     g_hIconBattery = DynamicLoadIcon(g_hInstance);
-
-    return pSysTray->NotifyIcon(NIM_MODIFY, ID_ICON_POWER, g_hIconBattery, g_strTooltip);
+    
+	return pSysTray->NotifyIcon(NIM_MODIFY, ID_ICON_POWER, g_hIconBattery, g_strTooltip);
 }
 
 HRESULT STDMETHODCALLTYPE Power_Shutdown(_In_ CSysTray * pSysTray)
@@ -169,7 +179,7 @@ static void _ShowContextMenu(CSysTray * pSysTray)
 }
 
 static
-BOOLEAN
+BOOLEAN 
 CALLBACK
 PowerSchemesEnumProc(
     UINT uiIndex,
@@ -184,6 +194,7 @@ PowerSchemesEnumProc(
 
     if (AppendMenuW(PowerSchemeContext->hPopup, MF_STRING, uiIndex + 1, sName))
     {
+    	ERR("RIGHT_CLICK?\n");
         if (PowerSchemeContext->uiFirst == 0)
             PowerSchemeContext->uiFirst = uiIndex + 1;
 
@@ -233,7 +244,10 @@ ShowPowerSchemesPopupMenu(
 HRESULT STDMETHODCALLTYPE Power_Message(_In_ CSysTray * pSysTray, UINT uMsg, WPARAM wParam, LPARAM lParam, LRESULT &lResult)
 {
     TRACE("Power_Message uMsg=%d, wParam=%x, lParam=%x\n", uMsg, wParam, lParam);
-
+	
+	
+	ERR("Power_Message uMsg=%d, wParam=%x, lParam=%x\n", uMsg, wParam, lParam);
+	
     switch (uMsg)
     {
         case WM_USER + 220:
@@ -265,6 +279,7 @@ HRESULT STDMETHODCALLTYPE Power_Message(_In_ CSysTray * pSysTray, UINT uMsg, WPA
         case WM_TIMER:
             if (wParam == POWER_TIMER_ID)
             {
+            	ERR("ShowPowerSchemesPopupMenu\n");
                 KillTimer(pSysTray->GetHWnd(), POWER_TIMER_ID);
                 ShowPowerSchemesPopupMenu(pSysTray);
             }
@@ -276,35 +291,35 @@ HRESULT STDMETHODCALLTYPE Power_Message(_In_ CSysTray * pSysTray, UINT uMsg, WPA
             switch (lParam)
             {
                 case WM_LBUTTONDOWN:
-            		ERR("WM_LBUTTONDOWN");
+            		//ERR("WM_LBUTTONDOWN\n");
                     SetTimer(pSysTray->GetHWnd(), POWER_TIMER_ID, GetDoubleClickTime(), NULL);
                     break;
 
                 case WM_LBUTTONUP:
-            		ERR("WM_LBUTTONUP");
+            		ERR("WM_LBUTTONUP\n");
                     break;
 
                 case WM_LBUTTONDBLCLK:
                     KillTimer(pSysTray->GetHWnd(), POWER_TIMER_ID);
                     _RunPower();
-            		ERR("WM_LBUTTONDBLCLK");
+            		//ERR("WM_LBUTTONDBLCLK\n");
                     break;
 
                 case WM_RBUTTONDOWN:
-            		ERR("WM_RBUTTONDOWN");
+            		//ERR("WM_RBUTTONDOWN\n");
                     break;
 
                 case WM_RBUTTONUP:
-            		ERR("WM_RBUTTONUP");
+            		//ERR("WM_RBUTTONUP\n");
                     _ShowContextMenu(pSysTray);
                     break;
 
                 case WM_RBUTTONDBLCLK:
-            		ERR("WM_RBUTTONDBLCLK");
+            		//ERR("WM_RBUTTONDBLCLK\n");
                     break;
 
                 case WM_MOUSEMOVE:
-            		ERR("WM_MOUSEMOVE");
+            		//ERR("WM_MOUSEMOVE\n");
                     break;
             }
             return S_OK;

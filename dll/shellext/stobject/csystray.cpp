@@ -209,6 +209,7 @@ HRESULT CSysTray::NotifyIcon(INT code, UINT uId, HICON hIcon, LPCWSTR szTip, DWO
     NOTIFYICONDATA nim = { 0 };
 
     TRACE("NotifyIcon code=%d, uId=%d, hIcon=%p, szTip=%S\n", code, uId, hIcon, szTip);
+	ERR("NotifyIcon code=%d, uId=%d, hIcon=%p, szTip=%S\n", code, uId, hIcon, szTip);
 
     nim.cbSize = sizeof(nim);
     nim.uFlags = NIF_MESSAGE | NIF_ICON | NIF_STATE | NIF_TIP;
