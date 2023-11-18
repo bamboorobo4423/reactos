@@ -155,6 +155,7 @@ HRESULT CSysTray::ShutdownIcons()
 HRESULT CSysTray::UpdateIcons()
 {
     TRACE("Updating Notification icons...\n");
+	//ERR("Updating Notification icons...\n");
     for (int i = 0; i < g_NumIcons; i++)
     {
         if (this->dwServicesEnabled & g_IconHandlers[i].dwServiceFlag)
@@ -173,6 +174,8 @@ HRESULT CSysTray::ProcessIconMessage(UINT uMsg, WPARAM wParam, LPARAM lParam, LR
     for (int i = 0; i < g_NumIcons; i++)
     {
         HRESULT hr = g_IconHandlers[i].pfnMessage(this, uMsg, wParam, lParam, lResult);
+    	//HRESULT hr = S_OK;
+    	//ERR("pfnMessage\n");
         if (FAILED(hr))
             return hr;
 
@@ -220,11 +223,14 @@ HRESULT CSysTray::NotifyIcon(INT code, UINT uId, HICON hIcon, LPCWSTR szTip, DWO
     nim.dwStateMask = NIS_HIDDEN;
     nim.hWnd = m_hWnd;
     nim.uVersion = NOTIFYICON_VERSION;
-    if (szTip)
-        StringCchCopy(nim.szTip, _countof(nim.szTip), szTip);
+	if (szTip){
+		ERR("szTip\n");
+        StringCchCopy(nim.szTip, _countof(nim.szTip), szTip);}
     else
         nim.szTip[0] = 0;
     BOOL ret = Shell_NotifyIcon(code, &nim);
+	
+	ERR("ret %d\n", ret);
     return ret ? S_OK : E_FAIL;
 }
 
@@ -243,7 +249,8 @@ HRESULT CSysTray::SysTrayMessageLoop()
     {
         if (ret < 0)
             break;
-
+		
+    	//ERR("tset\n");
         TranslateMessage(&msg);
         DispatchMessage(&msg);
     }
@@ -335,6 +342,7 @@ BOOL CSysTray::ProcessWindowMessage(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM 
         return TRUE;
     }
 
+	
     switch (uMsg)
     {
     case WM_NCCREATE:
@@ -346,6 +354,7 @@ BOOL CSysTray::ProcessWindowMessage(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM 
         InitIcons();
         SetTimer(1, 2000, NULL);
         RegisterShellHookWindow(hWnd);
+    	//ERR("WM_CREATE uMsg:%u \n", uMsg);
         return TRUE;
 
     case WM_TIMER:
@@ -353,6 +362,7 @@ BOOL CSysTray::ProcessWindowMessage(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM 
             UpdateIcons();
         else
             ProcessIconMessage(uMsg, wParam, lParam, lResult);
+    		//ERR("ProcessIconMessage %u (%08p %08p %08p )\n", uMsg, wParam, lParam, lResult);
         return TRUE;
 
     case WM_SETTINGCHANGE:
@@ -367,12 +377,14 @@ BOOL CSysTray::ProcessWindowMessage(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM 
         DeregisterShellHookWindow(hWnd);
         ShutdownIcons();
         PostQuitMessage(0);
+    	//ERR("WM_DESTROY uMsg:%u \n", uMsg);
         return TRUE;
     }
 
     TRACE("SysTray message received %u (%08p %08p)\n", uMsg, wParam, lParam);
-
+	ERR("SysTray message received %u (%08p %08p)\n", uMsg, wParam, lParam);
     hr = ProcessIconMessage(uMsg, wParam, lParam, lResult);
+	//hr = S_OK;
     if (FAILED(hr))
         return FALSE;
 

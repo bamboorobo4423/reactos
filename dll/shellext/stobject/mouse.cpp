@@ -23,6 +23,7 @@ HRESULT STDMETHODCALLTYPE
 MouseKeys_Shutdown(_In_ CSysTray *pSysTray)
 {
     TRACE("MouseKeys_Shutdown!\n");
+	ERR("MouseKeys_Shutdown:\n");
 
     if (g_MkStateIcon)
     {
@@ -33,6 +34,7 @@ MouseKeys_Shutdown(_In_ CSysTray *pSysTray)
     if (g_MkState)
     {
         g_MkState = 0;
+    	ERR("MouseKeys_NotifyIcon:\n");
         pSysTray->NotifyIcon(NIM_DELETE, ID_ICON_MOUSE, g_MkStateIcon, L"MouseKeys");
     }
 
@@ -43,7 +45,8 @@ HRESULT STDMETHODCALLTYPE
 MouseKeys_Update(_In_ CSysTray *pSysTray)
 {
     TRACE("MouseKeys_Update!\n");
-
+	ERR("MouseKeys_Update:\n");
+	
     g_Mk.cbSize = sizeof(g_Mk);
     SystemParametersInfoW(SPI_GETMOUSEKEYS, sizeof(g_Mk), &g_Mk, 0);
 

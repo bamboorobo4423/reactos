@@ -135,7 +135,7 @@ HRESULT STDMETHODCALLTYPE Power_Init(_In_ CSysTray * pSysTray)
 HRESULT STDMETHODCALLTYPE Power_Update(_In_ CSysTray * pSysTray)
 {
     TRACE("Power_Update\n");
-	ERR("Power_Update:\n");
+	//ERR("Power_Update:\n");
     g_hIconBattery = DynamicLoadIcon(g_hInstance);
     
 	return pSysTray->NotifyIcon(NIM_MODIFY, ID_ICON_POWER, g_hIconBattery, g_strTooltip);
@@ -194,7 +194,7 @@ PowerSchemesEnumProc(
 
     if (AppendMenuW(PowerSchemeContext->hPopup, MF_STRING, uiIndex + 1, sName))
     {
-    	ERR("RIGHT_CLICK?\n");
+    	ERR("LEFT_CLICK?\n");
         if (PowerSchemeContext->uiFirst == 0)
             PowerSchemeContext->uiFirst = uiIndex + 1;
 
@@ -252,16 +252,19 @@ HRESULT STDMETHODCALLTYPE Power_Message(_In_ CSysTray * pSysTray, UINT uMsg, WPA
     {
         case WM_USER + 220:
             TRACE("Power_Message: WM_USER+220\n");
+    		ERR("Power_Message: WM_USER+220\n");
             if (wParam == POWER_SERVICE_FLAG)
             {
                 if (lParam)
                 {
                     pSysTray->EnableService(POWER_SERVICE_FLAG, TRUE);
+                    ERR("Power_Init\n");
                     return Power_Init(pSysTray);
                 }
                 else
                 {
                     pSysTray->EnableService(POWER_SERVICE_FLAG, FALSE);
+                    ERR("PowePower_Shutdownr_Init\n");
                     return Power_Shutdown(pSysTray);
                 }
             }
@@ -269,9 +272,11 @@ HRESULT STDMETHODCALLTYPE Power_Message(_In_ CSysTray * pSysTray, UINT uMsg, WPA
 
         case WM_USER + 221:
             TRACE("Power_Message: WM_USER+221\n");
+    		ERR("Power_Message: WM_USER+221\n");
             if (wParam == POWER_SERVICE_FLAG)
             {
                 lResult = (LRESULT)pSysTray->IsServiceEnabled(POWER_SERVICE_FLAG);
+                ERR("IsServiceEnabled\n");
                 return S_OK;
             }
             return S_FALSE;
@@ -279,6 +284,7 @@ HRESULT STDMETHODCALLTYPE Power_Message(_In_ CSysTray * pSysTray, UINT uMsg, WPA
         case WM_TIMER:
             if (wParam == POWER_TIMER_ID)
             {
+            	//ここで消せば消えそう
             	ERR("ShowPowerSchemesPopupMenu\n");
                 KillTimer(pSysTray->GetHWnd(), POWER_TIMER_ID);
                 ShowPowerSchemesPopupMenu(pSysTray);
@@ -296,10 +302,12 @@ HRESULT STDMETHODCALLTYPE Power_Message(_In_ CSysTray * pSysTray, UINT uMsg, WPA
                     break;
 
                 case WM_LBUTTONUP:
-            		ERR("WM_LBUTTONUP\n");
+            	//ここで消せば消えそう
+            		//ERR("WM_LBUTTONUP\n");
                     break;
 
                 case WM_LBUTTONDBLCLK:
+            	//ここで消せば消えそう
                     KillTimer(pSysTray->GetHWnd(), POWER_TIMER_ID);
                     _RunPower();
             		//ERR("WM_LBUTTONDBLCLK\n");
@@ -310,7 +318,8 @@ HRESULT STDMETHODCALLTYPE Power_Message(_In_ CSysTray * pSysTray, UINT uMsg, WPA
                     break;
 
                 case WM_RBUTTONUP:
-            		//ERR("WM_RBUTTONUP\n");
+            	//ここで消せば消えそう
+            		ERR("WM_RBUTTONUP\n");
                     _ShowContextMenu(pSysTray);
                     break;
 
@@ -322,6 +331,7 @@ HRESULT STDMETHODCALLTYPE Power_Message(_In_ CSysTray * pSysTray, UINT uMsg, WPA
             		//ERR("WM_MOUSEMOVE\n");
                     break;
             }
+    		ERR("S_OK\n");
             return S_OK;
 
         default:
