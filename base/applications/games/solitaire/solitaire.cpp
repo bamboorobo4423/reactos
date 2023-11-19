@@ -6,6 +6,8 @@
 #include <tchar.h>
 
 #include "resource.h"
+#include <debug.h>
+#include <stdio.h>
 
 TCHAR szHelpPath[MAX_PATH];
 
@@ -682,7 +684,19 @@ LRESULT CALLBACK WndProc (HWND hwnd, UINT iMsg, WPARAM wParam, LPARAM lParam)
         case WM_SIZE:
             nWidth  = LOWORD(lParam);
             nHeight = HIWORD(lParam);
-            ERR("width:%d   Height:%d\n",nWidth,nHeight);
+    	
+    	
+    		char  msgx[256];
+			char  msgy[256];
+    		
+    		//wsprintf(msgx, TEXT("%d"), nWidth);
+    		//wsprintf(msgy, TEXT("%d"), nHeight);
+    		
+			sprintf(msgx, "%d", nWidth);
+			sprintf(msgy, "%d", nHeight);
+    	
+			MessageBoxA(NULL,msgx ,"nWidth",MB_OK);
+			MessageBoxA(NULL,msgy ,"nHeight",MB_OK);
 
             if (dwOptions & OPTION_SHOW_STATUS)
             {
@@ -713,7 +727,8 @@ LRESULT CALLBACK WndProc (HWND hwnd, UINT iMsg, WPARAM wParam, LPARAM lParam)
                                     Y_BORDER +
                                     (dwOptions & OPTION_SHOW_STATUS ? nStatusHeight : 0);
 
-            ERR("minX:%d   minY:%d\n", mmi->ptMinTrackSize.x,mmi->ptMinTrackSize.y);
+           // MessageBoxA(NULL,mmi->ptMinTrackSize.x ,"x",MB_OK);
+        //	MessageBoxA(NULL,mmi->ptMinTrackSize.y ,"y",MB_OK);
             return 0;
         }
 

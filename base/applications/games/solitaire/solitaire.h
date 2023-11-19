@@ -2,6 +2,7 @@
 #define _SOL_PCH_
 
 #include <cardlib.h>
+#include <debug.h>
 
 extern CardWindow SolWnd;
 extern TCHAR szAppName[];
