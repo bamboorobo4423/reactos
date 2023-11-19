@@ -713,7 +713,7 @@ LRESULT CALLBACK WndProc (HWND hwnd, UINT iMsg, WPARAM wParam, LPARAM lParam)
                                     Y_BORDER +
                                     (dwOptions & OPTION_SHOW_STATUS ? nStatusHeight : 0);
 
-            ERR("minX:%d   minY:%d\n", mmi->ptMinTrackSize.x,n mmi->ptMinTrackSize.yHeight);
+            ERR("minX:%d   minY:%d\n", mmi->ptMinTrackSize.x,mmi->ptMinTrackSize.y);
             return 0;
         }
 
