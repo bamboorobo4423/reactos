@@ -682,7 +682,7 @@ LRESULT CALLBACK WndProc (HWND hwnd, UINT iMsg, WPARAM wParam, LPARAM lParam)
         case WM_SIZE:
             nWidth  = LOWORD(lParam);
             nHeight = HIWORD(lParam);
-            ERR("width:%d   Height:%d\n",nWidth,nHeight);
+            DPRINT1("width:%d   Height:%d\n",nWidth,nHeight);
 
             if (dwOptions & OPTION_SHOW_STATUS)
             {
@@ -713,7 +713,7 @@ LRESULT CALLBACK WndProc (HWND hwnd, UINT iMsg, WPARAM wParam, LPARAM lParam)
                                     Y_BORDER +
                                     (dwOptions & OPTION_SHOW_STATUS ? nStatusHeight : 0);
 
-            ERR("minX:%d   minY:%d\n", mmi->ptMinTrackSize.x,mmi->ptMinTrackSize.y);
+            DPRINT1("minX:%d   minY:%d\n", mmi->ptMinTrackSize.x,mmi->ptMinTrackSize.y);
             return 0;
         }
 
