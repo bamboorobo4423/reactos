@@ -148,9 +148,10 @@ public:
                               IID_PPV_ARG(IUserNotification, &pnotification));
         if (FAILED_UNEXPECTEDLY(hr))
             return hr;
-
+		
         hr = pnotification->SetBalloonInfo(m_Title, m_Text, NIIF_WARNING);
-        if (FAILED_UNEXPECTEDLY(hr))
+    	ERR("SetBalloonInfo");
+    	if (FAILED_UNEXPECTEDLY(hr))
             return hr;
 
         hr = pnotification->SetIconInfo(NULL, NULL);
