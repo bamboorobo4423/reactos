@@ -682,6 +682,7 @@ LRESULT CALLBACK WndProc (HWND hwnd, UINT iMsg, WPARAM wParam, LPARAM lParam)
         case WM_SIZE:
             nWidth  = LOWORD(lParam);
             nHeight = HIWORD(lParam);
+            ERR("width:%d   Height:%d\n",nWidth,nHeight);
 
             if (dwOptions & OPTION_SHOW_STATUS)
             {
@@ -711,6 +712,8 @@ LRESULT CALLBACK WndProc (HWND hwnd, UINT iMsg, WPARAM wParam, LPARAM lParam)
                                     __cardheight +
                                     Y_BORDER +
                                     (dwOptions & OPTION_SHOW_STATUS ? nStatusHeight : 0);
+
+            ERR("minX:%d   minY:%d\n", mmi->ptMinTrackSize.x,n mmi->ptMinTrackSize.yHeight);
             return 0;
         }
 
